@@ -3,7 +3,9 @@ import pureconfig._
 import pureconfig.generic.auto._
 
 case class Config(
-                   discordToken: String
+                   discordToken: String,
+                   guildId: String,
+                   clientId: String
                  )
 
 object Config {

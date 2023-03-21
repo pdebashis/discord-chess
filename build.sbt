@@ -10,7 +10,9 @@ libraryDependencies ++= Seq(
   "net.katsstuff" %% "ackcord"                 % "0.18.1", //For high level API, includes all the other modules
   "net.katsstuff" %% "ackcord-core"            % "0.18.1", //Low level core API
   "net.katsstuff" %% "ackcord-commands"        % "0.18.1", //Low to mid level Commands API
-  "net.katsstuff" %% "ackcord-lavaplayer-core" % "0.18.1"  //Low level lavaplayer API
+  "net.katsstuff" %% "ackcord-lavaplayer-core" % "0.18.1",  //Low level lavaplayer API
+  "org.scalaj" %% "scalaj-http" % "2.4.2",  // for HTTP API calls
+  "com.lihaoyi" %% "ujson" % "1.4.2"  // for parsing HTTP API call responses
 )
 
 resolvers += "LavaPlayerRepo" at "https://m2.dv8tion.net/releases"

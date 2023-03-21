@@ -3,7 +3,7 @@ import ackcord.interactions._
 import ackcord.interactions.commands._
 import ackcord.util.JsonSome
 
-class SlashCommand(requests: Requests) extends CacheApplicationCommandController(requests) {
+class AllSlashCommands(requests: Requests) extends CacheApplicationCommandController(requests) {
 
   val pongCommand = SlashCommand.command("ping", "Check if the bot is alive") { _ =>
     sendMessage("Pong")
@@ -12,7 +12,7 @@ class SlashCommand(requests: Requests) extends CacheApplicationCommandController
   val echoCommand = SlashCommand
     .withParams(string("message", "The message to send back"))
     .command("echo", "Echoes a message you send") { implicit i =>
-      sendMessage(s"ECHO: ${i.args}")
+      sendMessage(s"${i.args}")
     }
 
   // Multiple arguments

@@ -5,7 +5,8 @@ import pureconfig.generic.auto._
 case class Config(
                    discordToken: String,
                    guildId: String,
-                   clientId: String
+                   clientId: String,
+                   currencyAPI: String
                  )
 
 object Config {

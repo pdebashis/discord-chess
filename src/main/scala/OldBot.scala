@@ -6,7 +6,7 @@ import ackcord.interactions.InteractionsRegistrar
 import ackcord.requests.CreateMessage
 import ackcord.syntax._
 
-object MyBot extends App {
+object OldBot extends App {
 
   val config = Config.config match {
     case Right(value) => value
@@ -23,47 +23,6 @@ object MyBot extends App {
     .foreach { client =>
       client.onEventSideEffectsIgnore { case APIMessage.Ready(_, _, _) => println("Now ready") }
       client.onEventSideEffectsIgnore { case msg => println("Received Event : " + msg.getClass.getName)}
-
-      val mySlashCommands = new SlashCommand(client.requests)
-
-      client.onEventSideEffectsIgnore {
-        case msg: APIMessage.Ready =>
-
-          // Create the commands globally in all discords.
-          InteractionsRegistrar.createGlobalCommands(
-            msg.applicationId, // Client ID
-            client.requests,
-            replaceAll = true, // Boolean whether to replace all existing
-            mySlashCommands.pongCommand
-          )
-
-          InteractionsRegistrar.createGuildCommands(
-            msg.applicationId, // Client ID
-            GuildId(myGuildId), // Guild ID
-            client.requests,
-            replaceAll = true, // Boolean whether to replace all existing
-            // CreatedGuildCommand*
-            mySlashCommands.echoCommand,
-            mySlashCommands.multiArgsCommand,
-            mySlashCommands.optArgsCommand,
-            mySlashCommands.autocompleteCommand,
-            mySlashCommands.asyncCommand,
-            mySlashCommands.asyncEditCommand,
-            mySlashCommands.groupCommand
-          )
-
-          client.runGatewayCommands(msg.applicationId.asString)(
-            mySlashCommands.pongCommand,
-            mySlashCommands.echoCommand,
-            mySlashCommands.multiArgsCommand,
-            mySlashCommands.autocompleteCommand,
-            mySlashCommands.asyncCommand,
-            mySlashCommands.asyncEditCommand,
-            mySlashCommands.groupCommand
-          )
-      }
-
-
 
       {
         import client.system
@@ -98,7 +57,7 @@ object MyBot extends App {
       }
 
       val myEvents      = new MyEvents(client.requests)
-      val myListeners   = new Listeners(client)
+//      val myListeners   = new Listeners(client)
       val myCommands    = new MyCommands(client, client.requests)
       val myHelpCommand = new MyHelpCommand(client.requests)
 
@@ -107,7 +66,7 @@ object MyBot extends App {
         myEvents.welcomeNew
       )
 
-      client.registerListener(myListeners.createListeners)
+//      client.registerListener(myListeners.createListeners)
 
       client.commands.runNewCommand(
         PrefixParser.structured(needsMention = true, Seq("!"), Seq("help")),

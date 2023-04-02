@@ -2,7 +2,7 @@ import ackcord._
 import ackcord.syntax._
 import akka.NotUsed
 
-class MyEvents(requests: Requests) extends EventsController(requests) {
+class AllEvents(requests: Requests) extends EventsController(requests) {
 
   val printReady: EventListener[APIMessage.Ready, NotUsed] =
     Event.on[APIMessage.Ready].withSideEffects(_ => println("Now ready from controller"))

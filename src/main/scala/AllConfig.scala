@@ -2,13 +2,13 @@ import pureconfig.ConfigReader.Result
 import pureconfig._
 import pureconfig.generic.auto._
 
-case class Config(
+case class AllConfig(
                    discordToken: String,
                    guildId: String,
                    clientId: String,
                    currencyAPI: String
                  )
 
-object Config {
-  val config: Result[Config] = ConfigSource.default.load[Config]
+object AllConfig {
+  val config: Result[AllConfig] = ConfigSource.default.load[AllConfig]
 }

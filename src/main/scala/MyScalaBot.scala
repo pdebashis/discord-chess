@@ -8,7 +8,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 object MyScalaBot extends App {
-  val config = Config.config match {
+  val config = AllConfig.config match {
     case Right(value) => value
     case Left(value) => sys.error(s"Failed to parse config - $value")
   }
@@ -54,30 +54,29 @@ object MyScalaBot extends App {
 
   val myCurrencyCommands = new MyCurrency(client.requests, currencyAPI)
 
-  val myListeners = new Listeners(client, myCurrencyCommands)
+  val myListeners = new MyListeners(client, myCurrencyCommands)
   client.registerListener(myListeners.createListeners)
 
   client.onEventSideEffectsIgnore {
     case msg: APIMessage.Ready =>
 
-//      // Create the commands globally in all discords.
-//      InteractionsRegistrar.createGlobalCommands(
-//        msg.applicationId, // Client ID
-//        client.requests,
-//        replaceAll = false, // Boolean whether to replace all existing
-//        // CreatedGuildCommand*
-//        mySlashCommands.pongCommand,
-//        mySlashCommands.echoCommand
-//      )
-
-      val myGuildId = GuildId(guildId)
-      InteractionsRegistrar.createGuildCommands(
+      // Create the commands globally in all discords.
+      InteractionsRegistrar.createGlobalCommands(
         msg.applicationId, // Client ID
-        myGuildId, // Guild ID
         client.requests,
         replaceAll = true, // Boolean whether to replace all existing
+        // CreatedGuildCommand*
         myCurrencyCommands.groupCommand
       )
+
+//      val myGuildId = GuildId(guildId)
+//      InteractionsRegistrar.createGuildCommands(
+//        msg.applicationId, // Client ID
+//        myGuildId, // Guild ID
+//        client.requests,
+//        replaceAll = true, // Boolean whether to replace all existing
+//        myCurrencyCommands.groupCommand
+//      )
   }
 
   client.onEventSideEffectsIgnore { case msg: APIMessage.Ready =>

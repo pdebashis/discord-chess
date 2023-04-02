@@ -4,7 +4,7 @@ import akka.NotUsed
 
 import scala.util.Try
 
-class Listeners(client: DiscordClient, CurrencyInstance: MyCurrency) extends EventsController(client.requests) {
+class MyListeners(client: DiscordClient, CurrencyInstance: MyCurrency) extends EventsController(client.requests) {
 
 
   val createListeners =  TextChannelEvent.on[APIMessage.MessageCreate].withSideEffects { m =>
@@ -16,18 +16,19 @@ class Listeners(client: DiscordClient, CurrencyInstance: MyCurrency) extends Eve
 
         val listener = client.registerListener(TextChannelEvent.on[APIMessage.MessageCreate].withSideEffects { implicit m =>
           if (m.channel.id == inChannel) {
-            println(s"$identifier: ${m.event.message.content}")
             val amount = m.event.message.content
             if (Try(amount.toDouble).isSuccess) {
-              val amountD = amount.toDouble
               println("Converting")
+
+              val amountD = amount.toDouble
+              val currency = CurrencyInstance.currency_symbol
               val currencyToInr = CurrencyInstance.currency_rate
               val currencyToATM = CurrencyInstance.currency_atm
               val currencyToCC = CurrencyInstance.currency_cc
               val currencyToDollar = CurrencyInstance.currency_dollar
               val rupeeSymbol = "\u20B9"
 
-              val currency_display_string = s"$rupeeSymbol `${currencyToInr * amountD}` rupees\n" +
+              val currency_display_string = s"**$amountD $currency =**\n$rupeeSymbol `${currencyToInr * amountD}` rupees\n" +
                 s"$rupeeSymbol `${currencyToATM * amountD}` (Cash)\n$rupeeSymbol `${currencyToCC * amountD}` (Card)\n" +
               s"`$$ ${currencyToDollar * amountD}`"
 

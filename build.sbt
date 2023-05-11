@@ -17,3 +17,11 @@ libraryDependencies ++= Seq(
 
 resolvers += "LavaPlayerRepo" at "https://m2.dv8tion.net/releases"
 libraryDependencies += "com.sedmelluq" % "lavaplayer" % "1.3.77"
+
+assembly / assemblyMergeStrategy := {
+  case PathList("module-info.class") => MergeStrategy.last
+  case path if path.endsWith("/module-info.class") => MergeStrategy.last
+  case x =>
+    val oldStrategy = (assembly / assemblyMergeStrategy).value
+    oldStrategy(x)
+}

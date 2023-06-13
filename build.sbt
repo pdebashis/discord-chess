@@ -17,4 +17,5 @@ libraryDependencies ++= Seq(
 
 resolvers += "LavaPlayerRepo" at "https://m2.dv8tion.net/releases"
 libraryDependencies += "com.sedmelluq" % "lavaplayer" % "1.3.77"
+libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.34.0"
 

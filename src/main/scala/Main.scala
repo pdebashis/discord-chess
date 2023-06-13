@@ -27,30 +27,8 @@ object Main extends App {
     case _: APIMessage.Ready => println("Now ready")
   }
 
-  import client.requestsHelper._
-  client.onEventAsync { implicit c =>
-  {
-    case APIMessage.ChannelCreate(_, channel, _, _) =>
-      for {
-        tChannel <- optionPure(channel.asTextChannel)
-        _        <- run(tChannel.sendMessage("First"))
-      } yield ()
-    case APIMessage.ChannelDelete(optGuild, channel, _, _) =>
-      for {
-        guild <- optionPure(optGuild)
-        _     <- runOption(guild.textChannels.headOption.map(_.sendMessage(s"${channel.name} was deleted")))
-      } yield ()
-    case APIMessage.ThreadCreate(_, thread, _, _) =>
-      run(thread.sendMessage("First")).map(_ => ())
-    case APIMessage.ThreadUpdate(_, thread, _, _) => run(thread.sendMessage(s"Edited")).map(_ => ())
-    case msg @ APIMessage.ThreadDelete(_, threadId, parentId, _, _, _) =>
-      run(
-        CreateMessage
-          .mkContent(parentId, s"Deleted thread ${msg.thread.fold(threadId.asString)(_.name)}")
-      ).map(_ => ())
-  }
-  }
-
+  val myListeners = new MyListeners(client)
+  client.registerListener(myListeners.createListeners)
 
   client.login()
 }

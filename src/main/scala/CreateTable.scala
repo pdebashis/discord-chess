@@ -16,7 +16,7 @@ object CreateTable extends App {
 
     try {
       // Execute the CREATE TABLE statement to create a table in the database
-      val createTableQuery = "CREATE TABLE games (id INTEGER PRIMARY KEY, status TEXT, white TEXT, black TEXT, CurrMover TEXT, LastMove TEXT, win TEXT, loss TEXT, draw BOOLEAN)"
+      val createTableQuery = "CREATE TABLE games (id INTEGER PRIMARY KEY, status TEXT, white TEXT, black TEXT, CurrMover TEXT, LastMove TEXT, whiteW BOOL, blackW BOOL, draw BOOL)"
       statement.executeUpdate(createTableQuery)
 
       // Add more CREATE TABLE statements or perform other initial database setup if needed

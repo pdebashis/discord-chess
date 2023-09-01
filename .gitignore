@@ -3,4 +3,5 @@
 project/target
 target/
 src/main/resources/application.conf
+src/main/resources/*.db
 *.class
